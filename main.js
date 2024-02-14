@@ -131,6 +131,26 @@ function getRandomFruit() {
 }
 
 // Klavye olaylarını dinleyen fonksiyonlar
+let touchStartX = 0;
+let touchMovedX = 0;
+
+window.addEventListener('touchstart', (event) => {
+  touchStartX = event.touches[0].clientX;
+});
+
+window.addEventListener('touchmove', (event) => {
+  touchMovedX = event.touches[0].clientX - touchStartX;
+});
+
+window.addEventListener('touchend', (event) => {
+  if (touchMovedX < -10 && currentBody.position.x - 20 > 30) {
+    Body.setPosition(currentBody, { x: currentBody.position.x - 20, y: currentBody.position.y });
+  } else if (touchMovedX > 10 && currentBody.position.x + 20 < 700) {
+    Body.setPosition(currentBody, { x: currentBody.position.x + 20, y: currentBody.position.y });
+  }
+  touchStartX = 0;
+  touchMovedX = 0;
+});
 window.onkeydown = (event) => {
   if (disableAction) return;
 
